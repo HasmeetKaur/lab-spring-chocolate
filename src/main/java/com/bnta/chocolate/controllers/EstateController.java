@@ -2,7 +2,6 @@ package com.bnta.chocolate.controllers;
 
 import com.bnta.chocolate.models.Estate;
 import com.bnta.chocolate.repositories.EstateRepository;
-import com.bnta.chocolate.services.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +23,13 @@ public class EstateController {
 
     @GetMapping
     public ResponseEntity<List<Estate>> getAllEstates(){
-        List<Estate> estates = estateService.getAllEstates();
-        return new ResponseEntity<>(estates, HttpStatus.OK);
+//        List<Estate> estates = estateService.getAllEstates();
+        return new ResponseEntity<>(estateRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Estate> getEstateById(@PathVariable Long id){
-        Optional<Estate> estate = estateService.getEstateById(id);
+        Optional<Estate> estate = estateRepository.findById(id);
         if(estate.isPresent()){
             return new ResponseEntity<>(estate.get(), HttpStatus.OK);
         } else {

@@ -2,7 +2,8 @@ package com.bnta.chocolate.controllers;
 
 import com.bnta.chocolate.models.Chocolate;
 import com.bnta.chocolate.models.Estate;
-import com.bnta.chocolate.services.ChocolateService;
+import com.bnta.chocolate.repositories.ChocolateRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +20,17 @@ import java.util.Optional;
 public class ChocolateController {
 
     @Autowired
-    ChocolateService chocolateService;
+    ChocolateRepository chocolateRepository;
 
     @GetMapping
     public ResponseEntity<List<Chocolate>> getAllChocolates(){
-        List<Chocolate> chocolates = chocolateService.getAllChocolates();
-        return new ResponseEntity<>(chocolates, HttpStatus.OK);
+//        List<Chocolate> chocolates = chocolateRepository.findAllById(id);
+        return new ResponseEntity<>(chocolateRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Chocolate> getChocolateById(@PathVariable Long id){
-        Optional<Chocolate> chocolate = chocolateService.getChocolateById(id);
+        Optional<Chocolate> chocolate = chocolateRepository.findById(id);
         if(chocolate.isPresent()){
             return new ResponseEntity<>(chocolate.get(), HttpStatus.OK);
         } else {
